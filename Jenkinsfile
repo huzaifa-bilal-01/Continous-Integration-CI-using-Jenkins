@@ -10,7 +10,7 @@ pipeline {
             steps {
                 script {
                     // Build the Docker image
-                    sh "docker build -t $DOCKER_IMAGE_NAME ."
+                    bat "docker build -t $DOCKER_IMAGE_NAME ."
                 }
             }
         }
@@ -23,10 +23,10 @@ pipeline {
                 script {
                     // Log in to Docker Hub securely
                     withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKER_HUB_USERNAME', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
-                        sh "echo $DOCKER_HUB_PASSWORD | docker login -u $DOCKER_HUB_USERNAME --password-stdin"
+                        bat "echo $DOCKER_HUB_PASSWORD | docker login -u $DOCKER_HUB_USERNAME --password-stdin"
 
                         // Push the Docker image to Docker Hub
-                        sh "docker push $DOCKER_IMAGE_NAME"
+                        bat "docker push $DOCKER_IMAGE_NAME"
                     }
                 }
             }
