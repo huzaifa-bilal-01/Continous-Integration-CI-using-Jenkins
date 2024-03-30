@@ -36,7 +36,7 @@ pipeline {
     post {
         always {
             // Clean up Docker images
-            sh 'docker system prune -af'
+            bat 'docker system prune -af'
         }
         success {
             echo 'Pipeline Success'
