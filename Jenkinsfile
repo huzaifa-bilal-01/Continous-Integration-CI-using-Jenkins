@@ -10,24 +10,22 @@ pipeline {
             steps {
                 script {
                     // Build the Docker image
-                    bat "docker build -t $DOCKER_IMAGE_NAME ."
+                    sh "docker build -t $DOCKER_IMAGE_NAME ."
                 }
             }
         }
 
-        stage('Login Dockerhub abd Push Docker Image') {
+        stage('Login Dockerhub and Push Docker Image') {
             environment {
                 DOCKER_HUB_CREDENTIALS = credentials('dockerhub-credentials')
             }
             steps {
                 script {
                     // Log in to Docker Hub securely
-                    withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKER_HUB_USERNAME', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
-                        bat "echo $DOCKER_HUB_PASSWORD | docker login -u $DOCKER_HUB_USERNAME --password-stdin"
+                    sh "echo docker123 | docker login -u usman0416 --password-stdin"
 
-                        // Push the Docker image to Docker Hub
-                        bat "docker push $DOCKER_IMAGE_NAME"
-                    }
+                    // Push the Docker image to Docker Hub
+                    sh "docker push $DOCKER_IMAGE_NAME"
                 }
             }
         }
@@ -36,7 +34,7 @@ pipeline {
     post {
         always {
             // Clean up Docker images
-            bat 'docker system prune -af'
+            sh 'docker system prune -af'
         }
         success {
             echo 'Pipeline Success'
